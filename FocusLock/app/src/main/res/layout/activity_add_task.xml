@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:text="创建任务"
+                android:textSize="20dp"
+                android:textColor="@color/colorText"/>
+
+        </android.support.v7.widget.Toolbar>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30dp"
+                    app:cardElevation="10dp"
+                    app:cardCornerRadius="3dp">
+
+                    <EditText
+                        android:id="@+id/et_setName"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="请输入任务名称"
+                        android:maxLength="10"
+                        android:maxLines="1"/>
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorText"
+                    android:text="专注时间" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="10dp">
+
+                    <EditText
+                        android:id="@+id/et_setTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:hint="输入时间/分钟"
+                        android:gravity="center"
+                        android:inputType="time"
+                        android:maxLines="1"
+                        android:textSize="15dp"
+                        android:background="@null"/>
+
+
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioGroup
+                            android:id="@+id/rg_lockMode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_timeMode"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:button="@null"
+                                android:background="@xml/radio"
+                                android:layout_margin="10dp"
+                                android:gravity="center"
+                                android:textColor="@color/colorPrimary"
+                                android:text="番茄" />
+
+                            <RadioButton
+                                android:id="@+id/rb_shakeMode"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+
+                                android:button="@null"
+                                android:background="@xml/radio"
+                                android:gravity="center"
+                                android:layout_margin="10dp"
+                                android:textColor="@color/colorPrimary"
+                                android:text="专注"/>
+
+                            <RadioButton
+                                android:id="@+id/rb_zenMode"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:button="@null"
+                                android:background="@xml/radio"
+                                android:gravity="center"
+                                android:layout_margin="10dp"
+                                android:textColor="@color/colorPrimary"
+                                android:text="禅定"/>
+
+
+
+
+                        </RadioGroup>
+
+                        <TextView
+                            android:id="@+id/tv_aboutMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:clickable="true"
+                            android:textColor="@color/colorAccent"
+                            android:layout_margin="5dp"
+                            android:textSize="12dp"
+                            android:text="不清楚模式？" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_selectShake"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="?selectableItemBackground"
+                            android:orientation="vertical"
+                            android:padding="10dp"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@mipmap/ic_lock" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="摇动解锁" />
+
+
+                            <EditText
+                                android:id="@+id/et_setShake"
+                                android:layout_width="150dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="15dp"
+                                android:maxLines="1"
+                                android:maxLength="5"
+                                android:inputType="number"
+                                android:gravity="center"
+                                android:hint="请输入摇动次数"
+                                android:background="@xml/shape_hollow"/>
+
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioGroup
+                            android:id="@+id/rg_alarmMode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_alarmNo"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:button="@null"
+                                android:background="@xml/radio"
+                                android:gravity="center"
+                                android:layout_margin="10dp"
+                                android:textColor="@color/colorPrimary"
+                                android:text="无"/>
+
+                            <RadioButton
+                                android:id="@+id/rb_alarmShake"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:button="@null"
+                                android:background="@xml/radio"
+                                android:layout_margin="10dp"
+                                android:gravity="center"
+                                android:textColor="@color/colorPrimary"
+                                android:text="振动"/>
+
+                        </RadioGroup>
+
+
+
+
+                    </LinearLayout>
+
+
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="12dp"
+                    android:text="选择完成提醒方式" />
+
+            </LinearLayout>
+
+
+
+        </ScrollView>
+
+    </LinearLayout>
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_done"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="@color/colorPrimary"/>
+
+
+</RelativeLayout>

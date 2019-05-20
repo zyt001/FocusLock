@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/White"
+    tools:context=".activity.TaskActivity">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="专注"
+            android:textSize="20dp"
+            android:textColor="@color/colorText"/>
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
+            android:id="@+id/swipRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+        </com.yanzhenjie.recyclerview.SwipeRecyclerView>
+
+
+        <TextView
+            android:id="@+id/tv_noTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="15dp"
+            android:text="当前没有任务\n快去创建一个吧" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_addTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_add"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            app:borderWidth="0dp"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="normal"
+            app:elevation="10dp"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>
