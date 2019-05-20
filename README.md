@@ -12,7 +12,7 @@
 一个Android菜鸡开发者，第一次开源项目  
 QQ：779230506
 # 开源声明
-```java  
+```
 Copyright 2019 Yutao Zhang
 
    Licensed under the Apache License, Version 2.0 (the "License");
