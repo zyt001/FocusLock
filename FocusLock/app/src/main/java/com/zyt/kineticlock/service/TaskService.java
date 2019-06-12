@@ -92,7 +92,6 @@ public class TaskService extends Service implements LockServiceContract.View {
         showTask();
         showBackground();
         showFloatingWindow();
-        //ImmersionBar.with(this).init();
     }
 
 
@@ -200,6 +199,7 @@ public class TaskService extends Service implements LockServiceContract.View {
 
         //initData
         timeStep= task.getLockTime()*1000*60;
+        tv_taskTitle.setText(String.valueOf(task.getTitle()));
         tv_taskTime.setText(String.valueOf(task.getLockTime()));
         tv_taskMode.setText(task.getTaskMode());
         tv_taskNum.setText("剩余"+shakeNumber+"次");
