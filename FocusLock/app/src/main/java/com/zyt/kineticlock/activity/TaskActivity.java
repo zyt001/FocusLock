@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -244,6 +245,7 @@ public class TaskActivity extends AppCompatActivity implements TasksContract.Vie
     @Override
     public void openTomatoTask(int position) {
         spHelper=new SharedPreferencesHelper(mContext,"Task");
+        spHelper.putValue("title",taskList.get(position).getTitle());
         Intent intent=new Intent(TaskActivity.this,TomatoActivity.class);
         startActivity(intent);
     }
@@ -252,42 +254,12 @@ public class TaskActivity extends AppCompatActivity implements TasksContract.Vie
     public void openLockTask(int position) {
         spHelper=new SharedPreferencesHelper(mContext,"Task");
         spHelper.putValue("title",taskList.get(position).getTitle());
-        isFirst=(Boolean)spHelper.getValue("isFirst",true);
-
-        spHelper.putValue("title",taskList.get(position).getTitle());
-        if (isFirst)
-        {
-            AlertDialog dialog=new AlertDialog.Builder(mContext)
-                    .setTitle("锁机温馨提示")
-                    .setMessage("为了更好的体验，请将软件锁定后台,点击确定后手机将锁定\n(注：本提示只显示一次，以后点击任务将直接进入锁机)")
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            startService(new Intent(mContext, TaskService.class));
-                            Intent intent = new Intent(Intent.ACTION_MAIN);
-                            intent.addCategory(Intent.CATEGORY_HOME);
-                            startActivity(intent);
-                        }
-                    }).create();
-
-            dialog.show();
-            spHelper.putValue("isFirst",false);
-
-        }else {
-
             startService(new Intent(mContext, TaskService.class));
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             startActivity(intent);
 
-        }
+
 
     }
 
@@ -465,6 +437,7 @@ public class TaskActivity extends AppCompatActivity implements TasksContract.Vie
                 taskList.clear();
                 mTaskPresenter.processTasks(mContext,taskList);
                 taskAdapter.notifyDataSetChanged();
+                showNoTask();
                 // showMessage("addSuccess");
                 break;
                 default:
