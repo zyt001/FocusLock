@@ -3,6 +3,7 @@ package com.zyt.kineticlock.model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -34,11 +35,18 @@ public class AddTasksModel {
 
     }
 
-    public void isTitleExist(Context mContext,String title){
+    public boolean isTitleExist(Context mContext,String title){
         dbHelper=new MyDatabaseHelper(mContext,"Lock.db",null,1);
         dbHelper.getWritableDatabase();
         SQLiteDatabase db=dbHelper.getWritableDatabase();
-        db.execSQL("select * from tb_task where title=?",new String[]{title});
+        Cursor cursor= db.query("tb_task",new String[]{"title"},"title = ?",new String[]{title},null,null,null);
+
+        if(cursor!=null&&cursor.getCount()>0){
+           return true;
+        }else{
+            return false;
+        }
+
     }
 
 }

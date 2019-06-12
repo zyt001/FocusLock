@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zyt.kineticlock.R;
@@ -20,13 +21,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
         private TextView tv_name;
         private TextView tv_lockTime;
-        private TextView tv_lockMode;
+        private ImageView iv_lockMode;
 
         public ViewHolder(@NonNull View view) {
             super(view);
             tv_name=view.findViewById(R.id.tv_name);
             tv_lockTime=view.findViewById(R.id.tv_lockTime);
-            tv_lockMode=view.findViewById(R.id.tv_lockMode);
+            iv_lockMode=view.findViewById(R.id.iv_taskIcon);
 
         }
     }
@@ -60,7 +61,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         Task task=mTask.get(position);
         holder.tv_name.setText(task.getTitle());
         holder.tv_lockTime.setText(String.valueOf(task.getLockTime())+"分钟");
-        holder.tv_lockMode.setText(task.getTaskMode());
+        switch (task.getTaskMode()){
+            case "番茄":
+                holder.iv_lockMode.setImageResource(R.mipmap.ic_tomato);
+                break;
+            case "专注":
+                holder.iv_lockMode.setImageResource(R.mipmap.ic_focus);
+                break;
+            case "禅定":
+                holder.iv_lockMode.setImageResource(R.mipmap.ic_zen);
+                break;
+        }
+
 
         if(itemOnClickListener!=null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {

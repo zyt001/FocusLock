@@ -18,13 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.TaskActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.TaskActivity"></activity>
         <activity android:name=".activity.AddTaskActivity" />
         <activity android:name=".activity.SetTaskActivity" />
         <activity android:name=".activity.AppActivity" />
@@ -36,7 +30,29 @@
 
         <activity android:name=".activity.OpenSourceActivity" />
         <activity android:name=".activity.AboutActivity" />
-        <activity android:name=".TomatoActivity"></activity>
+        <activity android:name=".activity.TomatoActivity" />
+        <activity android:name=".activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.WhiteAppActivity"></activity>
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
+
+        <!--适配华为（huawei）刘海屏-->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true"/>
+        <!--适配小米（xiaomi）刘海屏-->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+
     </application>
 
 </manifest>

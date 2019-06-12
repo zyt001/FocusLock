@@ -17,6 +17,7 @@ public interface LockServiceContract {
 
         //展示数据
         void showTask();
+        //展示背景
         void showBackground();
         //开启悬浮窗
        void showFloatingWindow();
@@ -30,8 +31,6 @@ public interface LockServiceContract {
         boolean showWhiteAppListener(Context mContext,String packageName);
         //移除悬浮窗
         void showRemoveWindow();
-        //添加悬浮窗
-        void showAddWindow();
 
         void isShowAppRun();
     }

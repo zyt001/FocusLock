@@ -8,10 +8,10 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="13dp"
+        android:layout_margin="10dp"
         android:background="?selectableItemBackground"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="3dp">
+        app:cardElevation="3dp"
+        app:cardCornerRadius="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,14 +19,11 @@
             android:padding="10dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_lockMode"
+            <ImageView
+                android:id="@+id/iv_taskIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:layout_gravity="center"
-                android:textColor="@color/colorAccent"
-                android:text="禅定"/>
+                android:layout_gravity="center"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -44,6 +41,7 @@
                     android:layout_gravity="center"
                     android:textSize="15dp"
                     android:text="任务名称"
+                    android:textStyle="bold"
                     android:textColor="@color/colorText"/>
 
                 <LinearLayout

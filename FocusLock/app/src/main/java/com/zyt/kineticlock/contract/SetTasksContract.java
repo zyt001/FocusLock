@@ -18,7 +18,9 @@ public interface SetTasksContract {
         void showStore();
         //显示开源
         void showOpenSource();
-        //显示关于我
+        //显示联系
+        void showContactMe();
+        //显示关于
         void showAbout();
 
     }
@@ -35,6 +37,7 @@ public interface SetTasksContract {
         void openStore(Context mContext);
         //获取开源
         void openOpenSource(Context mContext);
+        void openContactMe(Context mContext);
         //获取关于我
         void openAbout(Context mContext);
 

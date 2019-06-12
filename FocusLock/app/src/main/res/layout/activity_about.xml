@@ -81,7 +81,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="一刻专注，高效学习\n\n问题及建议反馈\nQQ:779230506"
+        android:text="专注\n\n暂别手机，享受生活"
         android:textColor="@color/colorText"
         android:textSize="15dip"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"

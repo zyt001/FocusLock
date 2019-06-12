@@ -12,7 +12,8 @@ import java.util.List;
 public interface TasksContract {
 
     interface  View extends BaseView<Presenter>{
-
+        //展示头部时间
+        void showTopTime();
         //展示任务
         void showTask();
         //展示无任务
@@ -20,7 +21,7 @@ public interface TasksContract {
         //添加任务
         void showAddTask();
         //番茄任务执行
-        void openTomatoTask();
+        void openTomatoTask(int position);
         //专注任务执行
         void openLockTask(int position);
         //禅定任务执行
@@ -33,10 +34,12 @@ public interface TasksContract {
         void applyPermission();
         //显示悬浮窗权限申请
         void showOverlayPermissionDialog();
+
+        void showOpenAppPermissionDialog();
         //显示应用使用量权限申请
         void showAppUsePermissionDialog();
-        //检测权限
-        void checkPermission();
+        //检测存储权限
+        void showStoragePermission();
 
 
 

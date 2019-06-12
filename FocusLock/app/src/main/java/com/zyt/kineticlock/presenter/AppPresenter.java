@@ -11,17 +11,19 @@ import java.util.List;
 
 public class AppPresenter implements AppContract.Presenter {
 
-    private AppContract.View mWhiteAppView;
+    private AppContract.View mAppView;
     private AppModel appModel;
 
-    public AppPresenter(@NonNull AppContract.View whiteAppView){
-        mWhiteAppView=whiteAppView;
+    public AppPresenter(@NonNull AppContract.View appView){
+        mAppView =appView;
         appModel =new AppModel();
-        whiteAppView.setPresenter(this);
+        appView.setPresenter(this);
     }
 
+
+
     @Override
-    public void getWhiteApp(Context mContext, List<AppInfo> mAppInfo) {
+    public void getApp(Context mContext, List<AppInfo> mAppInfo) {
         appModel.getAppList(mContext,mAppInfo);
     }
 

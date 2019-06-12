@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,23 +20,25 @@ import com.zyt.kineticlock.R;
 import com.zyt.kineticlock.bean.AppInfo;
 import com.zyt.kineticlock.utils.StringAndBitmapHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static android.support.constraint.Constraints.TAG;
 
-public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
+public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder>  {
 
     private Context mContext;
     private List<AppInfo> mAppInfo;
+
     public Map<Integer,Boolean> isSelectMap =new HashMap<>();
-    private StringAndBitmapHelper sabHelper=new StringAndBitmapHelper();
 
 
 
     public AppAdapter(Context context, List<AppInfo> infoList){
         mAppInfo =infoList;
+
         this.mContext=context;
 
     }
@@ -56,7 +61,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
         private ImageView iv_icon;
         private TextView tv_appName,tv_packageName;
         private int isSelect;
-        private CheckBox cb_isSlect;
+        private Switch btn_switch;
 
 
 
@@ -65,7 +70,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
             iv_icon=view.findViewById(R.id.iv_appIcon);
             tv_appName=view.findViewById(R.id.tv_appName);
             tv_packageName=view.findViewById(R.id.tv_packageName);
-            cb_isSlect=view.findViewById(R.id.cb_selectApp);
+            btn_switch=view.findViewById(R.id.btn_Swtich);
         }
     }
 
@@ -84,10 +89,8 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
 
         holder.tv_appName.setText(appInfo.getAppName());
         holder.tv_packageName.setText(appInfo.getPackageName());
-
         holder.iv_icon.setBackground(appInfo.getAppIcon());
-        holder.cb_isSlect.setChecked(appInfo.isSelect());
-        holder.cb_isSlect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                itemOnCheckListener.OnCheck(holder.itemView,position,isChecked);
@@ -95,11 +98,15 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
         });
 
         if(isSelectMap !=null&& isSelectMap.containsKey(position)){
-            holder.cb_isSlect.setChecked(true);
+            holder.btn_switch.setChecked(true);
         }else {
-            holder.cb_isSlect.setChecked(false);
+            holder.btn_switch.setChecked(false);
         }
+
+
     }
+
+
 
     @Override
     public int getItemCount() {

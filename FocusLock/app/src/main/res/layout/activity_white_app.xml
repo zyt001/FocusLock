@@ -14,6 +14,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
@@ -28,21 +29,21 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
-                android:text="本机应用"
+                android:text="应用白名单"
                 android:textColor="@color/colorText"
                 android:textSize="20dp" />
 
         </android.support.v7.widget.Toolbar>
 
 
-       <android.support.v7.widget.SearchView
-           android:id="@+id/searchView"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:background="@color/Background"
-           android:layout_marginHorizontal="10dp"
-           android:layout_marginBottom="10dp"
-           android:visibility="gone"/>
+        <android.support.v7.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Background"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"/>
 
 
         <ImageView
@@ -51,9 +52,10 @@
             android:background="@color/colorPrimaryDark"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_app"
+            android:id="@+id/recyclerview_whiteApp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+
             android:background="@color/colorPrimary"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp">
@@ -65,19 +67,26 @@
             android:layout_height="1dp"
             android:background="@color/colorPrimaryDark"/>
 
-
-
-
-
-
-
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/pb_loading"
+
+
+    <Button
+        android:id="@+id/btn_addWhiteApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:text="添加"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentBottom="true"/>
+
+
+    <TextView
+        android:id="@+id/tv_NoWhiteApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:text="无白名单应用,快去添加"/>
 
 
 </RelativeLayout>

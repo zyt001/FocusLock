@@ -38,10 +38,10 @@
 
        </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/cb_selectApp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+       <Switch
+           android:id="@+id/btn_Swtich"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
 
     </LinearLayout>
 

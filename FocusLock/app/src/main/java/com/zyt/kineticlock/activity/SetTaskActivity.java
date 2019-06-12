@@ -19,7 +19,8 @@ import com.zyt.kineticlock.utils.SharedPreferencesHelper;
 
 public class SetTaskActivity extends AppCompatActivity implements SetTasksContract.View {
 
-    private LinearLayout ll_setBackground,ll_setWhiteApp,ll_supportme,ll_version,ll_starapp,ll_openSource,ll_about;
+    private LinearLayout ll_setBackground,ll_setWhiteApp,ll_supportme,
+            ll_version,ll_starapp,ll_openSource,ll_qq,ll_about;
     private SetTasksContract.Presenter mPresenter;
     private SharedPreferencesHelper spHelper;
     private Context mContext;
@@ -36,8 +37,6 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
     }
 
 
-
-
     private void  initView() {
         //bindView
         ll_setBackground=findViewById(R.id.ll_setBackground);
@@ -46,6 +45,7 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
         ll_version=findViewById(R.id.ll_version);
         ll_starapp=findViewById(R.id.ll_starapp);
         ll_about=findViewById(R.id.ll_about);
+        ll_qq=findViewById(R.id.ll_qq);
         ll_openSource=findViewById(R.id.ll_openSource);
         sh_setHideBar=findViewById(R.id.sh_setHideBar);
 
@@ -55,6 +55,7 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
         ll_about.setOnClickListener(onClickListener);
         ll_starapp.setOnClickListener(onClickListener);
         ll_version.setOnClickListener(onClickListener);
+        ll_qq.setOnClickListener(onClickListener);
         ll_openSource.setOnClickListener(onClickListener);
 
         //init toolBar
@@ -82,7 +83,7 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
                     showPic();
                     break;
                 case R.id.ll_setWhiteApp:
-                    Intent intent=new Intent(SetTaskActivity.this,AppActivity.class);
+                    Intent intent=new Intent(SetTaskActivity.this,WhiteAppActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.ll_supportme:
@@ -96,6 +97,9 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
                     break;
                 case R.id.ll_openSource:
                     showOpenSource();
+                    break;
+                case R.id.ll_qq:
+                    showContactMe();
                     break;
                 case R.id.ll_about:
                     showAbout();
@@ -128,6 +132,11 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
     @Override
     public void showOpenSource() {
         mPresenter.openOpenSource(mContext);
+    }
+
+    @Override
+    public void showContactMe() {
+        mPresenter.openContactMe(mContext);
     }
 
     @Override

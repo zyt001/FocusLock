@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/coordinator"
     android:background="@color/White">
 
     <LinearLayout
@@ -74,9 +75,10 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="10dp">
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginVertical="20dp"
+                    app:cardElevation="10dp"
+                    app:cardCornerRadius="3dp">
 
                     <EditText
                         android:id="@+id/et_setTime"
@@ -168,7 +170,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:background="?selectableItemBackground"
                             android:orientation="vertical"
                             android:padding="10dp"
                             android:visibility="gone">
@@ -191,7 +192,7 @@
                                 android:layout_width="150dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/Background"
                                 android:textSize="15dp"
                                 android:maxLines="1"
                                 android:maxLength="5"
@@ -285,10 +286,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_done"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="10dp"
         app:backgroundTint="@color/colorPrimary"/>
 
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

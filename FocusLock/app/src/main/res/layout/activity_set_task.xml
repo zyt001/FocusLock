@@ -109,6 +109,7 @@
                         android:gravity="center"
                         android:padding="15dp"
                         android:background="?attr/selectableItemBackground"
+                        android:visibility="gone"
                         android:orientation="horizontal">
 
                         <TextView
@@ -131,6 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
+                        android:visibility="gone"
                         android:text="该模式开启后，锁机期间将防止重启手机关闭锁机"/>
 
                 </LinearLayout>
@@ -251,6 +253,28 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/ll_qq"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:padding="15dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="联系作者"
+                            android:textSize="20dp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/ic_rightarrow" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_about"

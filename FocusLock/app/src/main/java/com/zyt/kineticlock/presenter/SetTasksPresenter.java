@@ -35,17 +35,21 @@ public class SetTasksPresenter implements SetTasksContract.Presenter {
 
     @Override
     public void openSupportMe(Context mContext) {
-        AlertDialog dialog=new AlertDialog.Builder(mContext)
-                .setTitle("捐赠")
-                .setMessage("捐赠我？\n\n感谢你的支持，捐赠对我来说是一种无形压力，我喜欢随缘开发\n\n所以我目前不打算开通捐赠哦\n\n什么时候开通？\n\n随缘，哈哈哈哈！")
-                .setPositiveButton("好的", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
 
-                    }
-                }).create();
-        dialog.show();
+
+            String intentFullUrl = "intent://platformapi/startapp?saId=10000007&" +
+                    "clientVersion=3.7.0.0718&qrcode=https%3A%2F%2Fqr.alipay.com%2Ffkx03641ktsh1x35ebovf73?t=1560002618998%3F_s" +  //这里把｛URLcode｝替换成第一步扫描的结果
+                    "%3Dweb-other&_t=1472443966571#Intent;" +
+                    "scheme=alipayqr;package=com.eg.android.AlipayGphone;end";
+            try {
+                Intent intent = Intent.parseUri(intentFullUrl, Intent.URI_INTENT_SCHEME);
+                mContext.startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
     }
 
     @Override
@@ -69,6 +73,20 @@ public class SetTasksPresenter implements SetTasksContract.Presenter {
     public void openOpenSource(Context mContext) {
         Intent intent=new Intent(mContext,OpenSourceActivity.class);
         mContext.startActivity(intent);
+    }
+
+    @Override
+    public void openContactMe(Context mContext) {
+        AlertDialog dialog=new AlertDialog.Builder(mContext)
+                .setTitle("联系开发者")
+                .setMessage("\nQQ:779230506\n\n邮箱：779230506@qq.com")
+                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
     }
 
     @Override

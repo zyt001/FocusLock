@@ -37,7 +37,8 @@ public class AddTasksPresenter implements AddTasksContract.Presenter {
 
 
     @Override
-    public void searchTaskTitle(Context mContext, String title) {
+    public boolean searchTaskTitle(Context mContext, String title) {
 
+       return mAddTasksModel.isTitleExist(mContext,title);
     }
 }

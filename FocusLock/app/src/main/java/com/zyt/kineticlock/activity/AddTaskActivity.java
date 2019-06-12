@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,8 +32,8 @@ public class AddTaskActivity extends AppCompatActivity implements AddTasksContra
 
     private Context mContext;
     private AddTasksContract.Presenter mAddTaskPresenter;
-    private TaskAdapter taskAdapter;
     private TextView tv_aboutMode;
+    private CoordinatorLayout coordinatorLayout;
     private LinearLayout layout_selectShake;
     private EditText et_setName,et_setTime,et_setShake;
     private int shakeValue=0,lockModeValue=1,alarmValue=1;
@@ -67,6 +69,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTasksContra
 
 
         //BindView
+        coordinatorLayout=findViewById(R.id.coordinator);
         layout_selectShake =findViewById(R.id.layout_selectShake);
         et_setName=findViewById(R.id.et_setName);
         et_setTime=findViewById(R.id.et_setTime);
@@ -112,18 +115,20 @@ public class AddTaskActivity extends AppCompatActivity implements AddTasksContra
 
                     break;
                 case R.id.btn_save:
-                    if(et_setTime.getText().length()!=0&&et_setTime.getText().toString().trim().indexOf('0')!=0){
-                        if(lockModeValue!=1)
-                        {
+                    if((et_setName.getText().toString()).isEmpty()){
+                        showMessage(0);
+                    }else if(mAddTaskPresenter.searchTaskTitle(mContext,et_setName.getText().toString())){
+                        showMessage(1);
+                    }else if(et_setTime.getText().length()==0) {
+                        showMessage(2);
+                    }else if(et_setTime.getText().toString().trim().indexOf('0')==0){
+                        showMessage(3);
+                    }else{
+                        if(lockModeValue==2) {
                             shakeValue=Integer.valueOf(et_setShake.getEditableText().toString().trim());
                         }
                         mAddTaskPresenter.saveTask(mContext,et_setName.getText().toString(),et_setTime.getText().toString(),lockModeValue,shakeValue,alarmValue);
-
-                        Intent intent=new Intent(AddTaskActivity.this,TaskActivity.class);
-                        startActivity(intent);
-
-                    }else {
-                        showMessage();
+                        finish();
                     }
                     break;
                 case R.id.tv_aboutMode:
@@ -163,20 +168,31 @@ public class AddTaskActivity extends AppCompatActivity implements AddTasksContra
     };
 
     @Override
-    public void showMessage() {
-        Toast.makeText(AddTaskActivity.this,"专注时间不能为空或者为0",Toast.LENGTH_SHORT).show();
+    public void showMessage(int msgId) {
+        switch (msgId){
+            case 0:
+                Snackbar.make(coordinatorLayout,"名称不能为空哦！",Snackbar.LENGTH_SHORT).show();
+                break;
+            case 1:
+                Snackbar.make(coordinatorLayout,"名称不能重复哦！",Snackbar.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Snackbar.make(coordinatorLayout,"时间填了吗？",Snackbar.LENGTH_SHORT).show();
+                break;
+            case 3:
+                Snackbar.make(coordinatorLayout,"时间不能为0哦!",Snackbar.LENGTH_SHORT).show();
+                break;
+        }
+
     }
 
-    @Override
-    public void showBack() {
-        this.finish();
-    }
+
 
     @Override
     public void showAboutMode() {
         AlertDialog dialog=new AlertDialog.Builder(mContext)
                 .setTitle("关于模式")
-                .setMessage("\n番茄：简单番茄钟,普通锁屏，可随时退出\n\n专注：强制锁屏，可使用应用白名单,设置摇动紧急退出\n\n禅定：强制锁屏，仅提供电话接听拨打\n")
+                .setMessage("\n番茄：简单番茄钟,普通锁屏，可随时退出\n\n专注：强制锁屏，可使用应用白名单,设置摇动紧急退出\n\n禅定：强制锁屏,无应用白名单\n")
                 .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -187,7 +203,9 @@ public class AddTaskActivity extends AppCompatActivity implements AddTasksContra
         dialog.show();
     }
 
-
-
-
+    @Override
+    public void finish() {
+        super.finish();
+       setResult(3,null);
+    }
 }

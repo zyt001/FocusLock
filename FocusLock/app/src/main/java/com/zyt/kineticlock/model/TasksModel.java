@@ -33,13 +33,12 @@ public class TasksModel {
         {
             try {
                 SQLiteDatabase db=dbHelper.getWritableDatabase();
-                ContentValues values=new ContentValues();
                 db.execSQL("insert into tb_task (title,lockTime,unLockMode,modeNum,alarmMode) " +
                         "values('向左滑动删除','1','1','0','1') ");
                 db.execSQL("insert into tb_task (title,lockTime,unLockMode,modeNum,alarmMode) " +
-                        "values('点我进入锁机模式','1','2','10','2') ");
-                spHelper.putValue("isFirst",false);
+                        "values('点我开始','1','2','10','2') ");
                 db.close();
+                spHelper.putValue("isFirst",false);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -92,9 +91,5 @@ public class TasksModel {
         }
         db.close();
     }
-
-
-
-
 
 }

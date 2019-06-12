@@ -9,9 +9,8 @@ public interface AddTasksContract {
 
     interface View extends BaseView<Presenter>{
 
-        void showMessage();
+        void showMessage(int msgId);
 
-        void showBack();
 
         void showAboutMode();
 
@@ -23,7 +22,7 @@ public interface AddTasksContract {
         void saveTask(Context mContext, String title, String lockTime, int unLockMode, int modeNum, int alarmMode);
 
 
-        void searchTaskTitle(Context mContext,String title);
+        boolean searchTaskTitle(Context mContext,String title);
 
 
     }

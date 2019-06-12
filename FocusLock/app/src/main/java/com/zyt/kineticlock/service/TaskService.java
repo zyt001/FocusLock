@@ -24,9 +24,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.gyf.immersionbar.ImmersionBar;
 import com.zyt.kineticlock.R;
 import com.zyt.kineticlock.activity.TaskActivity;
-import com.zyt.kineticlock.adapter.WhiteAppAdapter;
+import com.zyt.kineticlock.adapter.LockAppAdapter;
 import com.zyt.kineticlock.bean.AppInfo;
 import com.zyt.kineticlock.bean.Task;
 import com.zyt.kineticlock.contract.LockServiceContract;
@@ -43,6 +44,7 @@ import static android.support.constraint.Constraints.TAG;
 public class TaskService extends Service implements LockServiceContract.View {
 
     private LockServiceContract.Presenter mLockServicePresenter;
+    private TextView tv_taskTime, tv_taskTitle, tv_taskMode, tv_taskNum;
     private GridLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private  List<AppInfo> appList = new ArrayList<AppInfo>();
@@ -54,8 +56,8 @@ public class TaskService extends Service implements LockServiceContract.View {
     private MyDatabaseHelper dbHelper;
     private CountDownTimer timer;
     private Task task =new Task();
-    private View view,whiteAppView;
-    private TextView tv_taskTime, tv_taskTitle, tv_taskMode, tv_taskNum;
+    private View view;
+
     private ConstraintLayout bg;
     private String pic,name,packageName;
     private Boolean isAppRun=false;
@@ -81,7 +83,7 @@ public class TaskService extends Service implements LockServiceContract.View {
     public void onCreate() {
         super.onCreate();
         view=View.inflate(getApplicationContext(), R.layout.layout_floatlock,null);
-        whiteAppView=View.inflate(TaskService.this,R.layout.layout_appdialog,null);
+
 
         new LockServicePresenter(this);
         mContext=this;
@@ -90,7 +92,7 @@ public class TaskService extends Service implements LockServiceContract.View {
         showTask();
         showBackground();
         showFloatingWindow();
-
+        //ImmersionBar.with(this).init();
     }
 
 
@@ -109,6 +111,8 @@ public class TaskService extends Service implements LockServiceContract.View {
 
     private void initView(){
 
+
+
         //init FloatView
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         layoutParams = new WindowManager.LayoutParams();
@@ -119,13 +123,8 @@ public class TaskService extends Service implements LockServiceContract.View {
         }
         layoutParams.format = PixelFormat.RGBA_8888;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_FULLSCREEN
-                //|WindowManager.LayoutParams.TYPE_PRIORITY_PHONE
-                |WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
-                //|WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                |WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN;
-                //|WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
-        // layoutParams.width = layoutParams.MATCH_PARENT;
-        // layoutParams.height = layoutParams.MATCH_PARENT;
+                |WindowManager.LayoutParams.FIRST_SUB_WINDOW
+                |WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
 
         //initView
         tv_taskTime =view.findViewById(R.id.tv_time);
@@ -135,14 +134,14 @@ public class TaskService extends Service implements LockServiceContract.View {
 
         bg=view.findViewById(R.id.bg);
 
-        recyclerView=view.findViewById(R.id.recyclerview);
+        recyclerView=view.findViewById(R.id.recyclerview_app);
         //init WhiteApp
         mLockServicePresenter.getWhiteAppData(mContext,appList);
         layoutManager=new GridLayoutManager(TaskService.this,4);
         recyclerView.setLayoutManager(layoutManager);
-        WhiteAppAdapter whiteAppAdapter =new WhiteAppAdapter(appList);
-        recyclerView.setAdapter(whiteAppAdapter);
-        whiteAppAdapter.setItemOnClickListener(new WhiteAppAdapter.ItemOnClickListener() {
+        LockAppAdapter lockAppAdapter =new LockAppAdapter(appList);
+        recyclerView.setAdapter(lockAppAdapter);
+        lockAppAdapter.setItemOnClickListener(new LockAppAdapter.ItemOnClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
                 mLockServicePresenter.toApp(mContext,appList.get(position).getPackageName());
@@ -187,6 +186,11 @@ public class TaskService extends Service implements LockServiceContract.View {
                     task.setTaskMode("摇动手机");
                     shakeNumber=cursor.getInt(4);
                     showShakeListener();
+                    break;
+                case 3:
+                    tv_taskMode.setVisibility(View.GONE);
+                    tv_taskNum.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
                     break;
             }
         }
@@ -248,18 +252,14 @@ public class TaskService extends Service implements LockServiceContract.View {
                 vibrator.vibrate(100);
                 break;
         }
-        //获取ActivityManager
         ActivityManager mAm = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        //获得当前运行的task
         List<ActivityManager.RunningTaskInfo> taskList = mAm.getRunningTasks(100);
         for (ActivityManager.RunningTaskInfo rti : taskList) {
-            //找到当前应用的task，并启动task的栈顶activity，达到程序切换到前台
             if (rti.topActivity.getPackageName().equals(getPackageName())) {
                 mAm.moveTaskToFront(rti.id, ActivityManager.MOVE_TASK_WITH_HOME);
                 return;
             }
         }
-        //若没有找到运行的task，用户结束了task或被系统释放，则重新启动mainactivity
         Intent resultIntent = new Intent(TaskService.this, TaskActivity.class);
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(resultIntent);
@@ -333,20 +333,11 @@ public class TaskService extends Service implements LockServiceContract.View {
 
     }
 
-    @Override
-    public void showAddWindow() {
-        windowManager.addView(view,layoutParams);
-    }
 
     @Override
     public void isShowAppRun() {
-
-
-
-        Log.i(TAG, "当前APP+++++++++++"+packageName);
         if(isAppRun){
             if(showWhiteAppListener(mContext,packageName)){
-               Log.i(TAG, "isShowAppRun: 匹配+++++++++++++++++++");
             }
             else {
                 showFloatingWindow();

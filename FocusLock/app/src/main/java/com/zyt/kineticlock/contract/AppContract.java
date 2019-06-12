@@ -15,14 +15,15 @@ public interface AppContract {
 
     interface View extends BaseView<Presenter>{
 
+        void showAppList();
 
     }
 
-
     interface Presenter extends BasePresenter {
 
+
         //获取本地应用
-        void getWhiteApp(Context mContext,List<AppInfo> mAppInfo);
+        void getApp(Context mContext, List<AppInfo> mAppInfo);
         //保存白名单应用
         void saveWhiteApp(Context mContext, List<AppInfo> mAppInfo, int positon);
 
