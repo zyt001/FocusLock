@@ -1,5 +1,7 @@
 package com.zyt.kineticlock.model;
 
+import android.app.ActivityManager;
+import android.app.usage.UsageEvents;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
@@ -12,9 +14,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 
 import com.zyt.kineticlock.bean.AppInfo;
+import com.zyt.kineticlock.bean.Task;
 import com.zyt.kineticlock.database.MyDatabaseHelper;
+import com.zyt.kineticlock.service.TaskService;
+import com.zyt.kineticlock.utils.SharedPreferencesHelper;
 import com.zyt.kineticlock.utils.StringAndBitmapHelper;
 
 import java.util.Collections;
@@ -27,6 +33,46 @@ import static android.support.constraint.Constraints.TAG;
 public class LockServiceModel {
 
     private MyDatabaseHelper dbHelper;
+    private SharedPreferencesHelper spHelper;
+    private String pic,name;
+    private Task task = new Task();
+    private String currentTopPackage = null;
+
+
+    public void getTaskInfo(Context mContext, List<Task> taskList) {
+
+        spHelper = new SharedPreferencesHelper(mContext, "Task");
+
+        name = (String) spHelper.getValue("title", "");
+        dbHelper = new MyDatabaseHelper(mContext, "Lock.db", null, 1);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from tb_task where title=?", new String[]{name});
+        while (cursor.moveToNext()) {
+            task.setTitle(cursor.getString(1));
+            task.setLockTime(cursor.getInt(2));
+            task.setModeNum(cursor.getInt(4));
+            task.setAlarmMode(cursor.getInt(5));
+            switch (cursor.getInt(3)) {
+                case 0:
+                    task.setTaskMode("番茄");
+                    break;
+                case 1:
+                    task.setTaskMode("番茄");
+                    break;
+                case 2:
+                    task.setTaskMode("专注");
+                    break;
+                case 3:
+                    task.setTaskMode("禅定");
+            }
+
+            taskList.add(task);
+
+        }
+        cursor.close();
+        db.close();
+    }
+
 
     public void getWhiteApp(Context mContext, List<AppInfo> appInfoList){
         PackageManager packageManager=mContext.getPackageManager();
@@ -91,26 +137,20 @@ public class LockServiceModel {
 
 
     public boolean isWhiteAppRun(Context mContext,String packageName){
-        class RecentUseComparator implements Comparator<UsageStats> {
-            @Override
-            public int compare(UsageStats lhs, UsageStats rhs) {
-                return (lhs.getLastTimeUsed() > rhs.getLastTimeUsed()) ? -1 : (lhs.getLastTimeUsed() == rhs.getLastTimeUsed()) ? 0 : 1;
+
+        UsageStatsManager sUsageStatsManager = (UsageStatsManager) mContext.getSystemService(Context.USAGE_STATS_SERVICE);
+        long endTime = System.currentTimeMillis();
+        long beginTime = endTime - 10000;
+        UsageEvents.Event event = new UsageEvents.Event();
+        UsageEvents usageEvents = sUsageStatsManager.queryEvents(beginTime, endTime);
+        while (usageEvents.hasNextEvent()) {
+            usageEvents.getNextEvent(event);
+            if (event.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+                currentTopPackage = event.getPackageName();
             }
         }
-
-        String currentTopPackage = null;
-        try {
-            RecentUseComparator mRecentComp = new RecentUseComparator();
-            long ts = System.currentTimeMillis();
-            UsageStatsManager mUsageStatsManager = (UsageStatsManager) mContext.getSystemService(Context.USAGE_STATS_SERVICE);
-            List<UsageStats> usageStats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, ts - 1000 * 10, ts);
-
-            Collections.sort(usageStats, mRecentComp);
-            currentTopPackage = usageStats.get(0).getPackageName();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (currentTopPackage.equals(packageName)||(currentTopPackage.equals("com.miui.securitycenter"))) {
+       // Log.i(TAG, "当前顶层APP: ++++++++++"+currentTopPackage);
+         if (currentTopPackage.equals(packageName)||(currentTopPackage.equals("com.miui.securitycenter"))) {
             return true;
         } else if(currentTopPackage.equals(null)) {
             return false;

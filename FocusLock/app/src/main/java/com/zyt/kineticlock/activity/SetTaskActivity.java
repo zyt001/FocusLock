@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zyt.kineticlock.R;
@@ -26,6 +27,7 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
     private Context mContext;
     private Toolbar toolbar;
     private Switch sh_setHideBar;
+    private TextView tv_version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
         new SetTasksPresenter(this);
         mContext=this;
         initView();
+        showVersion();
     }
 
 
@@ -48,6 +51,7 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
         ll_qq=findViewById(R.id.ll_qq);
         ll_openSource=findViewById(R.id.ll_openSource);
         sh_setHideBar=findViewById(R.id.sh_setHideBar);
+        tv_version=findViewById(R.id.tv_version);
 
         ll_setBackground.setOnClickListener(onClickListener);
         ll_setWhiteApp.setOnClickListener(onClickListener);
@@ -64,6 +68,7 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         //SetClickListener
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +76,9 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
                 finish();
             }
         });
+
+
+
 
     }
 
@@ -90,7 +98,7 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
                     showSupportMe();
                     break;
                 case  R.id.ll_version:
-                    showVersion();
+                    checkVersion();
                     break;
                 case R.id.ll_starapp:
                     showStore();
@@ -121,6 +129,11 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
 
     @Override
     public void showVersion() {
+       tv_version.setText("版本 V"+mPresenter.getVersion(mContext));
+    }
+
+    @Override
+    public void checkVersion() {
         mPresenter.openViersion(mContext);
     }
 
@@ -164,5 +177,7 @@ public class SetTaskActivity extends AppCompatActivity implements SetTasksContra
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
 
 }

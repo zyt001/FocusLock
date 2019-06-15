@@ -1,5 +1,6 @@
 package com.zyt.kineticlock.contract;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.widget.ImageView;
@@ -8,12 +9,14 @@ import android.widget.TextView;
 import com.zyt.kineticlock.BasePresenter;
 import com.zyt.kineticlock.BaseView;
 import com.zyt.kineticlock.bean.AppInfo;
+import com.zyt.kineticlock.bean.Task;
 
 import java.util.List;
 
 public interface LockServiceContract {
 
     interface View extends BaseView<Presenter>{
+
 
         //展示数据
         void showTask();
@@ -37,8 +40,11 @@ public interface LockServiceContract {
 
     interface Presenter extends BasePresenter{
 
+        //获取任务信息
+        void getTaskInfo(Context mContext, List<Task> taskList);
+
         //判断白名单应用是否运行
-        boolean isWhiteAppRun(Context mContext,String packageName);
+        boolean isWhiteAppRun(Context mContext, String packageName);
 
         //获取应用白名单数据
         void getWhiteAppData(Context mContext, List<AppInfo> appInfoList);

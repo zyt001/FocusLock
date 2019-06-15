@@ -369,7 +369,7 @@ public class TaskActivity extends AppCompatActivity implements TasksContract.Vie
     public void showOpenAppPermissionDialog() {
         AlertDialog dialog=new AlertDialog.Builder(this)
                 .setTitle("3.应用后台弹出界面权限申请")
-                .setMessage("\n专注需要您授权开启应用后台弹出权限\n注意：不开启将无法使用白名单功能\n操作：权限管理→后台弹出界面→允许\n")
+                .setMessage("\n部分机型若无该权限设置可不用设置\n（小米手机必须设置）\n\n专注需要您授权开启应用后台弹出权限\n注意：不开启将无法使用白名单功能\n操作：权限管理→后台弹出界面→允许\n")
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

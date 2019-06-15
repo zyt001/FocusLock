@@ -12,8 +12,10 @@ public interface SetTasksContract {
         void showPic();
         //显示支持我
         void showSupportMe();
-        //显示版本
+       //显示版本
         void showVersion();
+        //检测版本
+        void checkVersion();
         //去商店评分
         void showStore();
         //显示开源
@@ -32,6 +34,8 @@ public interface SetTasksContract {
         //获取支持我
         void openSupportMe(Context mContext);
         //获取版本
+        String getVersion(Context mContext);
+        //打开版本
         void openViersion(Context mContext);
         //进入商店
         void openStore(Context mContext);

@@ -2,10 +2,10 @@ package com.zyt.kineticlock.service;
 
 import android.app.ActivityManager;
 import android.app.Service;
+
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -16,7 +16,7 @@ import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.gyf.immersionbar.ImmersionBar;
+
 import com.zyt.kineticlock.R;
 import com.zyt.kineticlock.activity.TaskActivity;
 import com.zyt.kineticlock.adapter.LockAppAdapter;
@@ -37,9 +37,9 @@ import com.zyt.kineticlock.utils.SensorManagerHelper;
 import com.zyt.kineticlock.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
-import static android.support.constraint.Constraints.TAG;
 
 public class TaskService extends Service implements LockServiceContract.View {
 
@@ -48,19 +48,20 @@ public class TaskService extends Service implements LockServiceContract.View {
     private GridLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private  List<AppInfo> appList = new ArrayList<AppInfo>();
+    private List<Task>taskList=new ArrayList<Task>();
     private int timeStep=0,shakeNumber;
     private WindowManager windowManager;
     private Context mContext;
     private WindowManager.LayoutParams layoutParams;
     private SharedPreferencesHelper spHelper;
-    private MyDatabaseHelper dbHelper;
     private CountDownTimer timer;
     private Task task =new Task();
     private View view;
 
     private ConstraintLayout bg;
-    private String pic,name,packageName;
+    private String pic=null,name,packageName;
     private Boolean isAppRun=false;
+
 
 
     @Override
@@ -110,8 +111,6 @@ public class TaskService extends Service implements LockServiceContract.View {
 
     private void initView(){
 
-
-
         //init FloatView
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         layoutParams = new WindowManager.LayoutParams();
@@ -151,57 +150,44 @@ public class TaskService extends Service implements LockServiceContract.View {
         });
 
 
+
+
     }
 
-    private void getTask(){
-        spHelper=new SharedPreferencesHelper(TaskService.this,"Task");
-        pic=(String) spHelper.getValue("pic","");
-        name=(String)spHelper.getValue("title","");
-        dbHelper=new MyDatabaseHelper(this,"Lock.db",null,1);
-        SQLiteDatabase db=dbHelper.getWritableDatabase();
-        Cursor cursor =db.rawQuery("select * from tb_task where title=?",new String[]{name});
-
-        if(cursor.moveToNext()){
-
-            task.setTitle(cursor.getString(1));
-            task.setLockTime(cursor.getInt(2));
-            task.setAlarmMode(cursor.getInt(5));
-
-            switch (cursor.getInt(3)){
-                case 0:
-                    task.setTaskMode("时间");
-                    tv_taskMode.setVisibility(View.GONE);
-                    tv_taskNum.setVisibility(View.GONE);
 
 
-                    break;
-                case 1:
-                    task.setTaskMode("时间");
-                    tv_taskMode.setVisibility(View.GONE);
-                    tv_taskNum.setVisibility(View.GONE);
+    @Override
+    public void showTask() {
 
-                    break;
-                case 2:
-                    task.setTaskMode("摇动手机");
-                    shakeNumber=cursor.getInt(4);
-                    showShakeListener();
-                    break;
-                case 3:
-                    tv_taskMode.setVisibility(View.GONE);
-                    tv_taskNum.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.GONE);
-                    break;
-            }
+        mLockServicePresenter.getTaskInfo(mContext,taskList);
+        task.setTitle(taskList.get(0).getTitle());
+        task.setLockTime(taskList.get(0).getLockTime());
+        task.setAlarmMode(taskList.get(0).getAlarmMode());
+        task.setModeNum(taskList.get(0).getModeNum());
+        switch (taskList.get(0).getTaskMode()){
+            case "番茄":
+                task.setTaskMode("番茄");
+                tv_taskMode.setVisibility(View.GONE);
+                tv_taskNum.setVisibility(View.GONE);
+                break;
+            case "专注":
+                task.setTaskMode("专注");
+                shakeNumber=task.getModeNum();
+                showShakeListener();
+                break;
+            case "禅定":
+                task.setTaskMode("禅定");
+                tv_taskMode.setVisibility(View.GONE);
+                tv_taskNum.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                break;
         }
-        cursor.close();
-        db.close();
-
 
         //initData
         timeStep= task.getLockTime()*1000*60;
         tv_taskTitle.setText(String.valueOf(task.getTitle()));
         tv_taskTime.setText(String.valueOf(task.getLockTime()));
-        tv_taskMode.setText(task.getTaskMode());
+        tv_taskMode.setText(task.getTaskMode()+"模式");
         tv_taskNum.setText("剩余"+shakeNumber+"次");
 
         showTime();
@@ -209,20 +195,20 @@ public class TaskService extends Service implements LockServiceContract.View {
     }
 
     @Override
-    public void showTask() {
-        getTask();
-    }
-
-    @Override
     public void showBackground() {
-        SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                bg.setBackground(resource);
-            }
-        };
+        spHelper = new SharedPreferencesHelper(mContext, "Task");
+        pic = (String) spHelper.getValue("pic", "");
+        if(pic!=null){
+            SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
+                @Override
+                public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                    bg.setBackground(resource);
+                }
+            };
 
-        Glide.with(this).load(pic).into(simpleTarget);
+            Glide.with(this).load(pic).into(simpleTarget);
+        }
+
     }
 
     @Override
@@ -336,15 +322,17 @@ public class TaskService extends Service implements LockServiceContract.View {
 
     @Override
     public void isShowAppRun() {
+
         if(isAppRun){
             if(showWhiteAppListener(mContext,packageName)){
+
             }
             else {
                 showFloatingWindow();
                 isAppRun=false;
             }
         }
-    }
 
+    }
 
 }

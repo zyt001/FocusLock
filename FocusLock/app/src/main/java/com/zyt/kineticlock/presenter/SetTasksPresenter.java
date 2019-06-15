@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.zyt.kineticlock.activity.AboutActivity;
@@ -50,6 +53,20 @@ public class SetTasksPresenter implements SetTasksContract.Presenter {
 
 
 
+    }
+
+    @Override
+    public String  getVersion(Context mContext) {
+        String appVersionName = "";
+        try {
+            PackageInfo packageInfo = mContext.getApplicationContext()
+                    .getPackageManager()
+                    .getPackageInfo(mContext.getPackageName(), 0);
+            appVersionName = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("", e.getMessage());
+        }
+        return appVersionName;
     }
 
     @Override
