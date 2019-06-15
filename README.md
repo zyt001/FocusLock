@@ -11,9 +11,11 @@
 
 ![](http://image.coolapk.com/apk_image/2019/0613/09/appE6B5B7E68AA55-222893-o_1dd78igj31odgkci1n7le9109e1t-uid-633337@1475x2622.jpg.t.jpg)
 # APP下载
-### [V1.6下载](https://www.coolapk.com/apk/222893)
+### [release](https://www.coolapk.com/apk/222893)
 
 # 更新日志
+### V1.6.1
+* 打开白名单一段时间后闪退问题
 ### V1.6
 * 之前把自己祭天了，在天上时间长了，差点忘记了这沙雕app
 * 注意：数据库重新设计，更新用户请先卸载原有版本，重新安装
