@@ -11,7 +11,7 @@
 
 ![](http://image.coolapk.com/apk_image/2019/0613/09/appE6B5B7E68AA55-222893-o_1dd78igj31odgkci1n7le9109e1t-uid-633337@1475x2622.jpg.t.jpg)
 # APP下载
-### [release](https://www.coolapk.com/apk/222893)
+### [app-release.apk](https://www.coolapk.com/apk/222893)
 
 # 更新日志
 ### V1.6.1
